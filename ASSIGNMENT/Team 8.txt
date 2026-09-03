@@ -1,0 +1,36 @@
+class Room { 
+public: 
+    virtual ~Room() = default; 
+    virtual double getRate() const = 0; 
+    virtual void display() const = 0; 
+    virtual std::string getType() const = 0; 
+}; 
+class StandardRoom : public Room { 
+    double rate; 
+public: 
+    StandardRoom(double r) : rate(r) {} 
+    double getRate() const override { return rate; } 
+    std::string getType() const override { return "Standard"; } 
+    void display() const override { /* display room */ } 
+}; 
+class Service { 
+public: 
+    virtual ~Service() = default; 
+    virtual double getPrice() const = 0; 
+    virtual std::string getName() const = 0; 
+}; 
+class Reservation { 
+    int id; 
+    int guestId; 
+    int roomNumber; 
+    int nights; 
+    std::vector<std::shared_ptr<Service>> services; 
+public: 
+    double calculateBill(const Room& room) const { 
+        double total = room.getRate() * nights; 
+        for (const auto& s : services) 
+            total += s->getPrice(); 
+        return total; 
+Hotel Accommodation and Reservation Management | 9 
+    } 
+};
